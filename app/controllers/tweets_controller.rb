@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   # GET /tweets
   # GET /tweets.json
   def index
-    @tweets = Tweet.all
+    @tweets = Tweet.order(:created_at)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
   # GET /tweets/new.json
   def new
     @tweet = Tweet.new
-
+    @users = User.all
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @tweet }
@@ -40,7 +40,9 @@ class TweetsController < ApplicationController
   # POST /tweets
   # POST /tweets.json
   def create
-    @tweet = Tweet.new(params[:tweet])
+    @tweet = Tweet.new()
+    @tweet.text = params[:text]
+    @tweet.user = params[:user]
 
     respond_to do |format|
       if @tweet.save
@@ -56,17 +58,11 @@ class TweetsController < ApplicationController
   # PUT /tweets/1
   # PUT /tweets/1.json
   def update
-    @tweet = Tweet.find(params[:id])
-
-    respond_to do |format|
-      if @tweet.update_attributes(params[:tweet])
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @tweet.errors, status: :unprocessable_entity }
-      end
-    end
+    tweet = Tweet.find(params[:id])
+    tweet.text = params[:text]
+    tweet.user = params[:user]
+    tweet.save
+    redirect_to tweet
   end
 
   # DELETE /tweets/1
