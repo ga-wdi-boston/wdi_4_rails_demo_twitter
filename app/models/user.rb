@@ -7,4 +7,6 @@ class User < ActiveRecord::Base
 
 	attr_accessible :name, :screenname, :description, :email,
 					:location, :password
+
+	validates :screenname, presence: true
 end
