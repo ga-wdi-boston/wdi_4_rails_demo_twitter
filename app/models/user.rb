@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
 	has_many :tweets
 	has_many :favorites
-	# Do following here in a minute
+	
+	has_many :followings
+	has_many :friends, through: :followings, source: 'followed'
+
 	attr_accessible :name, :screenname, :description, :email,
 					:location, :password
 end
