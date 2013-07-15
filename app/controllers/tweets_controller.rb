@@ -16,7 +16,7 @@ class TweetsController < ApplicationController
 		@tweet = Tweet.new
 		@tweet.text = params[:text]
 		if @tweet.save
-			redirect_to @tweet
+			redirect_to @tweet, notice: "ok!"
 		else
 			# If the save doesn't work, then we want to keep
 			# the errors around, so we can show them!
