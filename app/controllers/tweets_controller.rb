@@ -1,4 +1,4 @@
-TweetsController < ApplicationController
+class TweetsController < ApplicationController
 	def index
 		@tweets = Tweet.all
 	end
@@ -13,9 +13,16 @@ TweetsController < ApplicationController
 	end
 
 	def create
-		#Come back to this in a second
 		@tweet = Tweet.new
-		@tweet.save
+		@tweet.text = params[:text]
+		if @tweet.save
+			redirect_to @tweet
+		else
+			# If the save doesn't work, then we want to keep
+			# the errors around, so we can show them!
+			# The following renders the view of 'new'
+			render action: "new"
+		end
 	end
 
 end
